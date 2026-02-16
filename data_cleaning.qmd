@@ -1,0 +1,59 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+#analyse raw dataset
+glimpse(population_projection)
+```
+
+```{r}
+#filter only to all ages
+processed_data <- population_projection |>
+  filter(Age == "All ages")
+```
+
+```{r}
+#remove unnecessary columns
+processed_data <- processed_data |> 
+  select(-c(
+    REGION, STRUCTURE, STRUCTURE_ID, STRUCTURE_NAME, ACTION,
+    SEX_ABS, AGE, FERTILITY, MORTALITY, FREQUENCY, 
+    Frequency, 'Time Period', UNIT_MEASURE, `Unit of Measure`, 
+    OBS_STATUS, `Observation Status`, OBS_COMMENT, 
+    `Observation Comment`, `Observation Value`, Age))
+```
+
+```{r}
+#check what are the distinct regions
+processed_data |> select(Region) |> distinct()
+```
+
+```{r}
+#change to uppercase for better formatting
+processed_data <- processed_data |>
+  mutate(Region = str_to_upper(Region))
+```
+
+```{r}
+#check column names
+glimpse(processed_data)
+```
+
+```{r}
+#rename column names for better formatting
+processed_data <- processed_data |>
+  rename(
+    Year = TIME_PERIOD,
+    Fertility_Assumption = 'Fertility Assumption',
+    Mortality_Assumption = 'Mortality Assumption',
+    Overseas_Migration = 'Net Overseas Migration',
+    Interstate_Migration = 'Net interstate migration',
+    Projected_Popuation = OBS_VALUE)
+```

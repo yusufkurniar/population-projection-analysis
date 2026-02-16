@@ -1,0 +1,22 @@
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto / rendering cache
+.quarto/
+_freeze/
+*_files/
+
+# LaTeX / PDF build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.tex
+
+# OS files
+.DS_Store
+Thumbs.db

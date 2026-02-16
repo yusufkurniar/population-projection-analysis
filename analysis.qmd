@@ -1,0 +1,380 @@
+---
+title: "Population Projection Analysis in Australia"
+author: Yusuf Kurnia Romadhon
+
+format:
+  pdf:
+    documentclass: article
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    fontsize: 11pt
+    mainfont: "Arial"          
+    sansfont: "Arial"       
+    monofont: "Courier New"
+    fig-cap-location: top
+    code-block-bg: true
+    code-line-numbers: true
+    linestretch: 1.5
+    keep-tex: true
+    latex-engine: xelatex
+    geometry: margin=1in
+    colorlinks: true
+    linkcolor: "RoyalBlue"
+    urlcolor: "RoyalBlue"
+    citecolor: "RoyalBlue"
+
+engine: knitr
+editor: visual
+theme: cosmo
+
+execute: 
+  warning: false
+  message: false
+  echo: false
+---
+
+\newpage
+
+## Executive Summary
+
+This project investigates Australia’s projected population growth, exploring both national and regional trends across the eight main regions of Australia. Using official projection datasets and demographic assumptions, we pinpoint the influence of fertility, mortality, and migration on future scenarios. Through linear modeling, we quantified and contrasted these factors to reveal how assumptions shape projections. Our results show that migration has the strongest impact on population growth, followed by fertility, with mortality having the least influence.
+
+## Introduction
+
+Australia’s population is expected to grow significantly over the coming decades. Understanding this growth is crucial for informing infrastructure, healthcare, education, and housing policies. In this project, we explore:
+
+-   How is Australia's total population projected to change over the years?
+
+-   How is the total population projected to grow across different states and territories over time?
+
+-   How do different assumptions (fertility, mortality, migration) influence these projections?
+
+Our analysis leverages a single official dataset detailing regional population projections and scenario-based demographic assumptions. A linear modeling framework is applied to quantify the influence of each demographic factor and evaluate projection accuracy across regions. This approach integrates statistical analysis and visualisation to provide a comprehensive view of Australia’s demographic future. The research aims to identify which demographic variables drive the most substantial changes. By comparing alternative projection scenarios, we gain insight into the sensitivity of future growth to changes in policy or global conditions. Our findings emphasise the dominant role of migration, followed by fertility, while mortality has comparatively minimal effect.
+
+```{r library}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r load-data}
+population_projection <- read_csv("data/population_projection.csv")
+
+```
+
+```{r}
+#filter only to all ages
+processed_data <- population_projection |>
+  filter(Age == "All ages")
+```
+
+```{r}
+#remove unnecessary columns
+processed_data <- processed_data |> 
+  select(-c(
+    REGION, STRUCTURE, STRUCTURE_ID, STRUCTURE_NAME, ACTION,
+    SEX_ABS, AGE, FERTILITY, MORTALITY, FREQUENCY, 
+    Frequency, 'Time Period', UNIT_MEASURE, `Unit of Measure`, 
+    OBS_STATUS, `Observation Status`, OBS_COMMENT, 
+    `Observation Comment`, `Observation Value`, Age))
+```
+
+```{r}
+#change to uppercase for better formatting
+processed_data <- processed_data |>
+  mutate(Region = str_to_upper(Region))
+```
+
+```{r}
+#rename column names for better formatting
+processed_data <- processed_data |>
+  rename(
+    Year = TIME_PERIOD,
+    Fertility_Assumption = 'Fertility Assumption',
+    Mortality_Assumption = 'Mortality Assumption',
+    Overseas_Migration = 'Net Overseas Migration',
+    Interstate_Migration = 'Net interstate migration',
+    Projected_Popuation = OBS_VALUE)
+```
+
+## Methodology {#sec-method}
+
+The methodology used in this population projection analysis can be seen in the @fig-methodology below:
+
+```{r}
+#| label: fig-methodology
+#| fig-cap: "Project Analysis Methodology."
+knitr::include_graphics("figures/methodology.png")
+```
+
+Based on @fig-methodology, the population projection analysis follows a clear, step-by-step framework that connects problem definition to results and recommendations. It begins with identifying the key issue: understanding how Australia’s population will change over time under different scenarios. The study recognises that future population levels are influenced by varying rates of fertility, mortality, and migration.
+
+The second step defines the data source and tools used. The analysis is based on the ABS Population Projections dataset from 2017 to 2066. The data includes regional breakdowns, assumption categories, and annual population figures. Tools such as R and libraries like tidyverse are used for cleaning, aggregation, and visualisation.
+
+The core analysis is guided by three research questions: How will Australia’s overall population grow? How will population trends differ across states and territories? How do different demographic assumptions impact these projections? Each of these questions forms a track of analysis.
+
+Results are presented using appropriate charts. National growth over time is visualised with a line chart, showing how population changes annually. State-level comparisons are made with a multi-line chart, allowing direct comparisons between regions. For scenario-based comparisons, a grouped bar chart is used. This chart compares the average population in three periods—Start (2017–2033), Middle (2034–2050), and End (2051–2066)—under three different assumptions: Low, Medium, and High. The scenarios are defined based on combinations of fertility rates, life expectancy, and migration levels.
+
+Finally, the process leads to a conclusion and recommendation section, where key findings are summarised and implications for planning are discussed. This method ensures a logical flow from question to insight and allows policymakers and planners to interpret complex projection data clearly.
+
+## Data Description
+
+::: {.callout-note title="Meta Data"}
+**Title:** *Australian Population Projections by Region (2017–2066)*\
+**Description:** This dataset contains projected population estimates for Australia's states and territories from 2017 to 2066 under various demographic assumptions. Data was sourced from the Australian Bureau of Statistics (ABS). Observations have been filtered, unnecessary variables were removed and columns standardized to support regional population trend analysis.\
+**Source:** Australian Bureau of Statistics – [abs.gov.au](https://www.abs.gov.au)\
+**Attribution:** © Commonwealth of Australia (ABS), accessed 30 May 2025.\
+**Time Coverage:** 2017–2066\
+**Geographic Scope:** All Australian states and territories\
+**Collected On:** 26 May 2025
+:::
+
+### Description of all Variables
+
+| **Variable** | **Description** |
+|------------------------------------|------------------------------------|
+| `Region` | Abbreviation for each Australian state or territory (e.g., NSW, VIC, WA). |
+| `Sex` | Sex category of the projection (e.g., "Males", "Females"). |
+| `Fertility_Assumption` | Assumed fertility level used in projection (e.g., "Medium fertility"). |
+| `Mortality_Assumption` | Assumed mortality level used in projection (e.g., "Medium life expectancy"). |
+| `NOM` | Numeric value of net overseas migration scenario. |
+| `Overseas_Migration` | Assumed level of net overseas migration (e.g., "Medium NOM"). |
+| `NIM` | Numeric value of net interstate migration scenario. |
+| `Interstate_Migration` | Assumed level of net interstate migration (e.g., "Medium interstate flows"). |
+| `Year` | Year of the population projection (2017 to 2066). |
+| `Projected_Population` | Estimated total population for the specified region, year, and demographics. |
+
+: Description of variables in the Australian population projection dataset {#tbl-vars}
+
+@tbl-vars shows a description of all the variables present in the Australian Population Projections by Region (2017–2066) dataset after cleaning.
+
+## Results {#sec-results}
+
+### Q1. How is Australia's total population projected to change over the years?
+
+We applied the "medium" settings for fertility, mortality, and migration to reflect the standard benchmark used in official planning.
+
+```{r}
+total_projection <- processed_data |>
+  filter(
+    Fertility_Assumption == "Medium fertility",
+    Mortality_Assumption == "Medium life expectancy",
+    Overseas_Migration == "Medium NOM",
+    Interstate_Migration == "Medium interstate flows") |>
+  group_by(Year) |>
+  summarise(Projected_Population = sum(Projected_Popuation, na.rm = TRUE)) |>
+  arrange(Year) |>
+  mutate(
+    Growth_Rate = (Projected_Population / lag(Projected_Population) - 1) * 100
+  )
+```
+
+```{r figure-2}
+#| label: fig-total-projection
+#| fig-cap: "Projected population of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. Population is projected to rise to over 40 million by the year 2066 indicating steady long-term growth."
+#| fig-width: 7
+#| fig-height: 4
+
+ggplot(total_projection, aes(x = Year, y = Projected_Population)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Projected Population of Australia Over Time (Medium Assumptions)",
+    x = "Year",
+    y = "Population"
+  ) +
+  theme_minimal()
+
+#ggsave("figures/fig-total-projection.png", plot = plot_total, width = 7, height = 4, dpi = 300, bg = "white")
+
+```
+
+@fig-total-projection shows a consistent upward trend in Australia’s population. Under medium demographic assumptions, the total population is projected to grow steadily, reaching over 40 million by 2066.
+
+```{r figure-3}
+#| label: fig-growth-chart
+#| fig-cap: "Projected annual population growth rate of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. Growth rate is projected to decline to below 1% by 2066."
+#| fig-width: 7
+#| fig-height: 4
+#| warning: FALSE
+
+ggplot(total_projection, aes(x = Year, y = Growth_Rate)) +
+  geom_line(color = "darkred", linewidth = 1.2) +
+  labs(
+    title = "Year-to-Year Population Growth Rate (Australia, Medium Assumptions)",
+    x = "Year",
+    y = "Growth Rate (%)"
+  ) +
+  scale_y_continuous(limits = c(0, 2)) +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank())
+
+#ggsave("figures/fig-growth-chart.png", plot = plot_total, width = 7, height = 4, dpi = 300, bg = "white")
+```
+
+@fig-growth-chart shows that while the population grows, the annual growth rate slows over time, falling to below 1% by 2066. This suggests a gradual deceleration in population increase despite overall growth.
+
+### Q2. How is the total population projected to grow across different states and territories over time?
+
+```{r}
+regional_projection <- processed_data |>
+  filter(
+    Fertility_Assumption == "Medium fertility",
+    Mortality_Assumption == "Medium life expectancy",
+    Overseas_Migration == "Medium NOM",
+    Interstate_Migration == "Medium interstate flows"
+  ) |>
+  group_by(Year, Region) |>
+  summarise(Projected_Population = sum(Projected_Popuation, na.rm = TRUE), .groups = "drop") |>
+  group_by(Region)
+```
+
+```{r figure-4}
+#| label: fig-regional-chart
+#| fig-cap: "Indexed population growth in Australia by region from 2017 to 2066 under medium fertility, mortality, and migration assumptions. Each region’s population is set to 100 in 2017 to compare relative growth."
+#| fig-width: 7
+#| fig-height: 4
+#| warning: FALSE
+
+regional_indexed <- regional_projection |>
+  group_by(Region) |>
+  mutate(
+    Index = Projected_Population / first(Projected_Population) * 100
+  )
+
+ggplot(regional_indexed, aes(x = Year, y = Index, color = Region)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Indexed Population Growth by Region (Medium Assumptions)",
+    x = "Year",
+    y = "Index (2017 = 100)"
+  ) + theme_minimal()
+
+#ggsave("figures/fig-regional-chart.png", plot = plot_total, width = 7, height = 4, dpi = 300, bg = "white")
+```
+
+@fig-regional-chart highlights clear variation across regions. Population growth is fastest in Queensland, Victoria, and New South Wales, while Tasmania and South Australia show slower increases. This suggests uneven demographic pressures and different infrastructure needs across the country.
+
+### Q3. How do different assumptions (fertility, mortality, migration) influence these projections?
+
+```{r figure-5}
+#| label: fig-assumption-scenario
+#| fig-cap: "Projected population of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. The High scenario consistently projects the largest population, driven by higher fertility and migration, while the Low scenario shows slower growth due to reduced births and zero net migration."
+#| fig-width: 7
+#| fig-height: 4
+
+
+# Define scenario categories based on assumption combinations
+q3 <- processed_data |>
+  mutate(
+    Scenario_Category = case_when(
+      Fertility_Assumption == "High fertility" &
+        Mortality_Assumption == "High life expectancy" &
+        Overseas_Migration == "High NOM" ~ "High Scenario",
+
+      Fertility_Assumption == "Medium fertility" &
+        Mortality_Assumption == "Medium life expectancy" &
+        Overseas_Migration == "Medium NOM" ~ "Medium Scenario",
+
+      Fertility_Assumption == "Low fertility" &
+        Mortality_Assumption == "Medium life expectancy" &
+        Overseas_Migration == "Zero NOM" ~ "Low Scenario",
+
+      TRUE ~ NA_character_
+    )
+  )
+
+# Define period labels
+q3 <- q3 |>
+  mutate(
+    Period = case_when(
+      Year >= 2017 & Year <= 2033 ~ "Start (2017–2033)",
+      Year >= 2034 & Year <= 2050 ~ "Middle (2034–2050)",
+      Year >= 2051 & Year <= 2066 ~ "End (2051–2066)",
+      TRUE ~ NA_character_
+    )
+  )
+
+# Filter valid rows and compute average population by period and scenario
+q3_filtered <- q3 |>
+  filter(!is.na(Scenario_Category), !is.na(Period)) |>
+  group_by(Period, Scenario_Category) |>
+  summarise(Avg_Population = mean(Projected_Popuation, na.rm = TRUE), .groups = "drop")
+
+# Reorder the factor levels for plotting
+q3_filtered <- q3_filtered |>
+  mutate(
+    Period = factor(Period, levels = c("Start (2017–2033)", "Middle (2034–2050)", "End (2051–2066)")),
+    Scenario_Category = factor(Scenario_Category, levels = c("Low Scenario", "Medium Scenario", "High Scenario"))
+  )
+
+# Step 6: Plot grouped bar chart
+ggplot(q3_filtered, aes(x = Period, y = Avg_Population, fill = Scenario_Category)) +
+  geom_col(position = "dodge", width = 0.7) +
+  labs(
+    title = "AVG. Projected Population by Period & Assumption Scenario",
+    x = "Projection Period",
+    y = "Average Population",
+    fill = "Scenario"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 13)
+
+#ggsave("figures/fig-assumption-scenario.png", plot = plot_total, width = 7, height = 4, dpi = 300, bg = "white")
+```
+
+@fig-assumption-scenario compares three demographic scenarios. While all scenarios begin similarly, projections diverge over time. The High scenario leads to the largest population by 2066, driven by higher fertility and migration. In contrast, the Low scenario results in slower growth, showing the strong influence of policy and global trends on long-term outcomes.
+
+## Discussion, Conclusion and Recommendation
+
+### Discussion
+
+The population projection analysis underscores a crucial insight: Australia is poised for sustained population growth, but the pace and distribution of this growth are highly variable depending on regional and demographic factors. Nationally, the population is expected to surpass 40 million by 2066 under medium assumptions, showing steady long-term growth. However, the annual growth rate is projected to decline gradually, falling below 1% by the projection’s end. Regional differences are prominent, with faster growth in Victoria, New South Wales, and Queensland, while smaller states experience slower increases. Moreover, varying assumptions about fertility, mortality, and migration create distinct population futures, highlighting the significant impact of policy and social trends on Australia’s demographic trajectory.
+
+The population projection analysis underscores a crucial insight: Australia is poised for sustained population growth, but the pace and distribution of this growth are highly variable depending on regional and demographic factors.
+
+Firstly, the national upward trend in population is consistent across all assumption scenarios, though the growth rate slows over time, dropping below 1% by 2066. This tapering growth may reflect demographic maturity, where lower fertility rates and aging populations contribute to deceleration despite net migration.
+
+Secondly, state and territory-level comparisons reveal stark differences in regional population trajectories. Victoria has consistently maintained the leading position in terms of indexed growth under medium assumptions, reflecting its enduring strength as both an economic hub and a major destination for internal and international migration. However, from 2030 onwards, Western Australia shows a notable acceleration in growth, indicating its rising prominence as an emerging economic and migration magnet. In contrast, states like Tasmania and South Australia continue to experience comparatively slower growth, which may pose challenges in sustaining economic vitality and public service provision amid relatively stagnant populations. These regional disparities highlight the importance of implementing place-based planning strategies tailored to the distinct demographic and economic contexts of each state.
+
+Thirdly, the influence of demographic assumptions is significant. The differences between low, medium, and high scenarios amplify as projections move further into the future. This sensitivity analysis shows that migration policies and fertility trends are pivotal levers that can drastically alter Australia’s demographic future. For instance, a high-migration, high-fertility scenario leads to a considerably larger population by 2066 than a conservative one. This raises questions about the country’s infrastructure readiness, environmental sustainability, and social cohesion under varying scenarios.
+
+### Conclusion
+
+Australia’s population is projected to grow significantly over the next five decades, but this growth will not be evenly spread across regions nor equally influenced by demographic factors. Nationally, the population is on track to exceed 40 million by 2066 under medium assumptions, though regional growth will be uneven.
+
+The study confirms three major takeaways:
+
+1.  Sustained national growth—but at a declining rate.
+
+2.  Regional disparities in growth, with populous and economically active states growing faster.
+
+3.  Critical dependency on assumptions—particularly fertility and migration rates—that shape long-term projections.
+
+These findings carry profound implications for urban planning, public service delivery, environmental resource management, and economic development strategies.
+
+### Recommendation
+
+1.  Targeted regional strategies: Regional differences call for differentiated planning. States like Tasmania and South Australia might need economic incentives or migration programs to stimulate growth, while high-growth areas like Victoria should prioritize housing, transport, and social infrastructure to prevent strain.
+
+2.  Demographic monitoring & Policy adjustments: Real-time demographic data (fertility, migration trends, mortality) must be monitored closely. Adjustments to immigration quotas, family support policies, and healthcare planning can help steer population growth toward sustainable and desirable outcomes.
+
+3.  Policy-makers need to challenge projection assumptions: Are fertility rates likely to change due to policy or social shifts? Could unexpected migration events (e.g. geopolitical crises) alter projections? Besides, they should use comparative frameworks from other nations experiencing similar demographic transitions (e.g., Canada, the UK) to benchmark potential outcomes.
+
+4.  Further research recommended includes:
+
+-   Investigate the implications of population aging in slower-growing states.
+
+-   Model how external shocks (e.g. pandemics, climate migration) might impact current projections.
+
+-   Study correlations between population growth and environmental impact at a regional level.
+
+## Reference
+
+Australian Bureau of Statistics. (2023). Population Projections, Australia, 2017 to 2066 (Data Explorer Table). Retrieved May 2025, [Access data here](https://dataexplorer.abs.gov.au/vis?tm=Population%20Projections&pg=0&hc%5BPeople%5D=Population%20%3E%20Population%20Projections&df%5Bds%5D=PEOPLE_TOPICS&df%5Bid%5D=POP_PROJ_REGION_2012_2061&df%5Bag%5D=ABS&df%5Bvs%5D=1.0.0&pd=2017%2C&dq=1%2B2%2B3%2B4%2B5%2B6%2B7%2B8.1%2B2.TT.1%2B2%2B3.1.1%2B2%2B3%2B4.1%2B2%2B3.A&ly%5Bcl%5D=SEX_ABS&ly%5Brs%5D=FERTILITY%2CNOM%2CNIM&ly%5Brw%5D=TIME_PERIOD%2CREGION&to%5BTIME_PERIOD%5D=false&vw=ov)
+
+Wickham, H. (2016). ggplot2: Elegant graphics for data analysis. Springer-Verlag New York. <https://ggplot2-book.org>
+
+Xie Y (2024). *knitr: A General-Purpose Package for Dynamic Report Generation in R*. R package version 1.49, <https://yihui.org/knitr/>.
+
+Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” *Journal of Open Source Software*, *4*(43), 1686. doi:10.21105/joss.01686 <https://doi.org/10.21105/joss.01686>.

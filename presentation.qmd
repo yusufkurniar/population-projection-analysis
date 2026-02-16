@@ -1,0 +1,175 @@
+---
+title: "Population Projection Analysis"
+author: "Yusuf Kurnia Romadhon"
+format:
+  revealjs:
+    theme: solarized
+    transition: fade
+    css: styles.css
+    slide-number: true
+    incremental: true
+execute:
+  freeze: auto
+output-file: index.html
+---
+
+## Introduction
+
+<div style="font-size:90%;">
+1. How is Australia’s total population projected to change over time?
+
+2. How will population growth differ across the 8 main regions of Australia?
+
+3. How do fertility, mortality, and migration assumptions shape these projections?
+
+  <div style="font-size:80%;">
+  To answer these questions, we use a single official dataset containing scenario-based demographic assumptions to generate future population projections. A linear modeling framework quantifies each factor’s influence on future growth.
+  
+  </div>
+</div>
+
+---
+
+## Data Description
+
+<div style="font-size:90%;">
+::: {.callout-note title="Meta Data"}
+**Title:** *Australian Population Projections by Region (2017–2066)*  
+**Description:** This dataset contains projected population estimates for Australia's states and territories from 2017 to 2066 under various demographic assumptions. Data was sourced from the Australian Bureau of Statistics (ABS).  
+**Source:** Australian Bureau of Statistics – [abs.gov.au](https://www.abs.gov.au)  
+**Attribution:** © Commonwealth of Australia (ABS), accessed 30 May 2025.  
+**Time Coverage:** 2017–2066  
+**Geographic Scope:** All Australian states and territories  
+**Collected On:** 26 May 2025  
+:::
+
+The raw dataset contains 172800 observations across 30 different variables!
+</div>
+
+---
+
+## Variables Present
+
+<div style="font-size:50%;">
+
+| **Variable** | **Description** |
+|------------------------------------|------------------------------------|
+| `Region` | Abbreviation for each Australian state or territory (e.g., NSW, VIC, WA). |
+| `Sex` | Sex category of the projection (e.g., "Males", "Females"). |
+| `Fertility_Assumption` | Assumed fertility level used in projection (e.g., "Medium fertility"). |
+| `Mortality_Assumption` | Assumed mortality level used in projection (e.g., "Medium life expectancy"). |
+| `NOM` | Numeric value of net overseas migration scenario. |
+| `Overseas_Migration` | Assumed level of net overseas migration (e.g., "Medium NOM"). |
+| `NIM` | 	Numeric value of net interstate migration scenario. |
+| `Interstate_Migration` | 	Assumed level of net interstate migration (e.g., "Medium interstate flows"). |
+| `Year` | Year of the population projection (2017 to 2066). |
+| `Projected_Population` | 	Estimated total population for the specified region, year, and demographics. |
+
+</div>
+
+---
+
+## Methodology {#sec-results}
+
+```{r figure-1}
+#| label: fig-methodology
+#| fig-cap: "Project Analysis Methodology."
+knitr::include_graphics("figures/methodology.png")
+```
+
+
+---
+
+## Results {#sec-results}
+
+<div style="font-size:50%;">
+<b>Q1.</b> How is Australia’s total population projected to change over time?
+
+We can analyse this using a population projection line chart as shown in @fig-total-projection:
+</div>
+
+```{r figure-2}
+#| label: fig-total-projection
+#| fig-cap: "<span style='font-size:80%'>Projected population of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. Population is projected to rise to over 40 million by the year 2066 indicating steady long-term growth.</span>"
+#| out-width: 80%
+#| fig-align: center
+
+knitr::include_graphics("figures/fig-total-projection.png")
+
+```
+
+---
+
+## Results {#sec-results}
+
+<div style="font-size:50%;">
+<b>Q2.</b> How will population growth differ across the 8 main regions of Australia? 
+
+We can analyse this using a multi-line chart as shown in @fig-regional-chart:
+</div>
+
+```{r figure-4}
+#| label: fig-regional-chart
+#| fig-cap: "<span style='font-size:80%'>Indexed population growth in Australia by region from 2017 to 2066 under medium fertility, mortality, and migration assumptions. Each region’s population is set to 100 in 2017 to compare relative growth.</span>"
+#| out-width: 80%
+#| fig-align: center
+
+knitr::include_graphics("figures/fig-regional-chart.png")
+```
+
+---
+
+## Results {#sec-results}
+
+<div style="font-size:50%;">
+<b>Q3.</b> How do fertility, mortality, and migration assumptions shape these projections? 
+
+We can Analyse this using comparison bar chart as shown in @fig-assumption-scenario:
+</div>
+
+```{r figure-5}
+#| label: fig-assumption-scenario
+#| fig-cap: "<span style='font-size:80%'>Projected population of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. The High scenario consistently projects the largest population, driven by higher fertility and migration, while the Low scenario shows slower growth due to reduced births and zero net migration.</span>"
+#| out-width: 80%
+#| fig-align: center
+
+knitr::include_graphics("figures/fig-assumption-scenario.png")
+```
+
+---
+
+
+## Conclusion & Recommendation
+
+<div style="font-size:70%;">
+1. **Key Takeaways**:
+
+    - Sustained but slowing national growth.
+    - Uneven regional population changes—growth concentrated in economically dynamic states.
+    - Long-term projections highly sensitive to demographic assumptions.
+
+2. **Recommendations**:
+    
+    - Regional planning: Boost growth in lagging states (e.g., TAS, SA) with incentives; invest in infrastructure in fast-growing states (e.g., VIC, WA).
+    - Demographic monitoring: Track key trends and adjust policies; benchmark with countries like Canada and the UK.
+    - Further research: Study aging in slow-growth areas, model external shocks, and assess environmental impacts of growth.
+</div>
+
+---
+
+## References
+
+<div style="font-size:70%;">
+1. Australian Bureau of Statistics. (2023). Population Projections, Australia, 2017 to 2066 (Data Explorer Table). Retrieved May 2025, from <https://dataexplorer.abs.gov.au>.
+
+2. Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester
+  J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi
+  K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” _Journal of Open Source
+  Software_, 4(43), 1686. doi:10.21105/joss.01686 <https://doi.org/10.21105/joss.01686>.
+
+3. Wickham, H. (2016). ggplot2: Elegant graphics for data analysis. Springer-Verlag New York. <https://ggplot2-book.org>
+</div>
+
+::: notes
+Completed
+:::
