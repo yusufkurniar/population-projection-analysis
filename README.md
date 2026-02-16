@@ -1,50 +1,31 @@
-# 📊 Population Projection Analysis (Reproducible Research)
+## 📊 Project Overview
 
-This project demonstrates **reproducible demographic analysis** using **Quarto and R**.  
-It combines data cleaning, statistical analysis, and publication-ready reporting, with outputs designed for both academic and professional audiences.
+This project demonstrates **reproducible demographic analysis** using **Quarto and R**.
+It analyses Australian population projections under different demographic assumptions.
 
 ---
 
-## 🔗 Project Outputs
+## 🔗 Outputs
 
 - 📄 **Full Analysis (PDF)**  
-  → `analysis.pdf`
+  [Download analysis report](analysis.pdf)
 
-- 🌐 **Interactive Presentation (HTML – GitHub Pages)**  
-  👉 https://yusufkurniar.github.io/population-projection-analysis/
+- 🎤 **Presentation (HTML Slides)**  
+  [View interactive presentation](presentation.html)
 
 ---
 
 ## 🧠 Skills Demonstrated
 
-- Reproducible research workflows (**Quarto + renv**)
+- Reproducible research workflows (Quarto + renv)
 - Data cleaning and validation
-- Statistical analysis and interpretation
-- Publication-ready reporting (PDF & HTML)
-- Project structuring for long-term reproducibility
-- Version control and GitHub Pages deployment
+- Statistical analysis
+- Publication-ready reporting
+- GitHub Pages deployment
 
 ---
 
-## 🛠 Tech Stack
+## ℹ️ Notes
 
-- **R**
-- **Quarto**
-- **RevealJS**
-- **renv**
-- **LaTeX (XeLaTeX)**
-
----
-
-## 📌 Project Notes
-
-Originally developed as part of a group assignment for **ETC5513 (Reproducible Reporting)**.  
-Analysis, structure, and presentation were **independently refined and extended** for portfolio use.
-
----
-
-## 👤 Author
-
-**Yusuf Kurnia Romadhon**  
-Master of Business Analytics, Monash University  
-Australia Awards Scholar
+Originally developed as part of **ETC5513 (Monash University)**  
+Independently refined and extended for portfolio use.
