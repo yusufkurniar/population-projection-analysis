@@ -10,6 +10,7 @@ format:
     incremental: true
 execute:
   freeze: auto
+output-dir: docs
 output-file: index.html
 ---
 
