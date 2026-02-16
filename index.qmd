@@ -1,0 +1,9 @@
+---
+title: "Population Projection Analysis"
+author: "Yusuf Kurnia Romadhon"
+format:
+  html:
+    theme: cosmo
+    toc: false
+output-dir: docs
+---
