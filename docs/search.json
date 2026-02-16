@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Population Projection Analysis",
+    "section": "Introduction",
+    "text": "Introduction\n\n\nHow is Australia’s total population projected to change over time?\nHow will population growth differ across the 8 main regions of Australia?\nHow do fertility, mortality, and migration assumptions shape these projections?\n\n\nTo answer these questions, we use a single official dataset containing scenario-based demographic assumptions to generate future population projections. A linear modeling framework quantifies each factor’s influence on future growth."
+  },
+  {
+    "objectID": "index.html#data-description",
+    "href": "index.html#data-description",
+    "title": "Population Projection Analysis",
+    "section": "Data Description",
+    "text": "Data Description\n\n\n\n\n\n\n\n\nMeta Data\n\n\nTitle: Australian Population Projections by Region (2017–2066)\nDescription: This dataset contains projected population estimates for Australia’s states and territories from 2017 to 2066 under various demographic assumptions. Data was sourced from the Australian Bureau of Statistics (ABS).\nSource: Australian Bureau of Statistics – abs.gov.au\nAttribution: © Commonwealth of Australia (ABS), accessed 30 May 2025.\nTime Coverage: 2017–2066\nGeographic Scope: All Australian states and territories\nCollected On: 26 May 2025\n\n\n\n\nThe raw dataset contains 172800 observations across 30 different variables!"
+  },
+  {
+    "objectID": "index.html#variables-present",
+    "href": "index.html#variables-present",
+    "title": "Population Projection Analysis",
+    "section": "Variables Present",
+    "text": "Variables Present\n\n\n\n\n\n\n\n\nVariable\nDescription\n\n\n\n\nRegion\nAbbreviation for each Australian state or territory (e.g., NSW, VIC, WA).\n\n\nSex\nSex category of the projection (e.g., “Males”, “Females”).\n\n\nFertility_Assumption\nAssumed fertility level used in projection (e.g., “Medium fertility”).\n\n\nMortality_Assumption\nAssumed mortality level used in projection (e.g., “Medium life expectancy”).\n\n\nNOM\nNumeric value of net overseas migration scenario.\n\n\nOverseas_Migration\nAssumed level of net overseas migration (e.g., “Medium NOM”).\n\n\nNIM\nNumeric value of net interstate migration scenario.\n\n\nInterstate_Migration\nAssumed level of net interstate migration (e.g., “Medium interstate flows”).\n\n\nYear\nYear of the population projection (2017 to 2066).\n\n\nProjected_Population\nEstimated total population for the specified region, year, and demographics."
+  },
+  {
+    "objectID": "index.html#sec-results",
+    "href": "index.html#sec-results",
+    "title": "Population Projection Analysis",
+    "section": "Results",
+    "text": "Results\n\nQ3. How do fertility, mortality, and migration assumptions shape these projections?\nWe can Analyse this using comparison bar chart as shown in Figure 4:\n\n\n\nFigure 4: Projected population of Australia from 2017 to 2066 under medium fertility, mortality, and migration assumptions. The High scenario consistently projects the largest population, driven by higher fertility and migration, while the Low scenario shows slower growth due to reduced births and zero net migration."
+  },
+  {
+    "objectID": "index.html#conclusion-recommendation",
+    "href": "index.html#conclusion-recommendation",
+    "title": "Population Projection Analysis",
+    "section": "Conclusion & Recommendation",
+    "text": "Conclusion & Recommendation\n\n\nKey Takeaways:\n\nSustained but slowing national growth.\nUneven regional population changes—growth concentrated in economically dynamic states.\nLong-term projections highly sensitive to demographic assumptions.\n\nRecommendations:\n\nRegional planning: Boost growth in lagging states (e.g., TAS, SA) with incentives; invest in infrastructure in fast-growing states (e.g., VIC, WA).\nDemographic monitoring: Track key trends and adjust policies; benchmark with countries like Canada and the UK.\nFurther research: Study aging in slow-growth areas, model external shocks, and assess environmental impacts of growth."
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Population Projection Analysis",
+    "section": "References",
+    "text": "References\n\n\nAustralian Bureau of Statistics. (2023). Population Projections, Australia, 2017 to 2066 (Data Explorer Table). Retrieved May 2025, from https://dataexplorer.abs.gov.au.\nWickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” Journal of Open Source Software, 4(43), 1686. doi:10.21105/joss.01686 https://doi.org/10.21105/joss.01686.\nWickham, H. (2016). ggplot2: Elegant graphics for data analysis. Springer-Verlag New York. https://ggplot2-book.org\n\n\n\nCompleted"
+  }
+]

@@ -8,6 +8,7 @@ format:
     css: styles.css
     slide-number: true
     incremental: true
+    embed-resources: true
 execute:
   freeze: auto
 output-dir: docs
