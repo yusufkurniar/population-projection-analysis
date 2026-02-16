@@ -1,16 +1,19 @@
 ---
 title: "Population Projection Analysis"
 author: "Yusuf Kurnia Romadhon"
+
 format:
   revealjs:
     theme: solarized
     transition: fade
-    css: styles.css
     slide-number: true
     incremental: true
     embed-resources: true
+    css: styles.css
+
 execute:
   freeze: auto
+
 output-dir: docs
 output-file: index.html
 ---
