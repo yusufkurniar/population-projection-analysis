@@ -1,15 +1,31 @@
-## 📊 Population Projection Analysis (Reproducible Research)
+## 📊 Project Overview
 
-This project demonstrates reproducible demographic analysis using Quarto and R.
-It includes data cleaning, statistical analysis, publication-ready reporting,
-and presentation outputs.
+This project demonstrates **reproducible demographic analysis** using **Quarto and R**.
+It analyses Australian population projections under different demographic assumptions.
 
-### 🧠 Skills Demonstrated
+---
+
+## 🔗 Outputs
+
+- 📄 **Full Analysis (PDF)**  
+  [Download analysis report](analysis.pdf)
+
+- 🎤 **Presentation (HTML Slides)**  
+  [View interactive presentation](presentation.html)
+
+---
+
+## 🧠 Skills Demonstrated
+
 - Reproducible research workflows (Quarto + renv)
 - Data cleaning and validation
 - Statistical analysis
-- Publication-ready reporting (HTML & PDF)
-- Project structuring for long-term reproducibility
+- Publication-ready reporting
+- GitHub Pages deployment
 
-Originally developed as part of a group assignment (ETC5513).  
-Analysis, structure, and presentation were independently refined and extended for portfolio use.
+---
+
+## ℹ️ Notes
+
+Originally developed as part of **ETC5513 (Monash University)**  
+Independently refined and extended for portfolio use.
