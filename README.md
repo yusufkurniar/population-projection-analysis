@@ -11,7 +11,7 @@ The project demonstrates an end-to-end analytical workflow, from data preparatio
 ## 🔗 Project Outputs
 
 - 📄 **Full Analysis Report (PDF)**  
-  👉 [Download analysis report](docs/analysis.pdf)
+  👉 [Download analysis report](analysis.pdf)
 
 - 🖥️ **Interactive Presentation (HTML Slides)**  
   👉 [View interactive presentation](https://yusufkurniar.github.io/population-projection-analysis/)
