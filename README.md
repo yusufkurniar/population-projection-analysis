@@ -1,27 +1,20 @@
-## 📊 Project Overview
+# 📊 Population Projection Analysis (Australia)
 
-This project demonstrates **reproducible demographic analysis** using **Quarto and R**.
-It analyses Australian population projections under different demographic assumptions.
+## Project Overview
+This project presents a **reproducible demographic analysis of Australian population projections** using **R** and **Quarto**.  
+It examines how population size and growth patterns evolve over time under different **fertility, mortality, and migration assumptions**, based on official Australian Bureau of Statistics (ABS) projection scenarios.
 
----
-
-## 🔗 Outputs
-
-- 📄 **Full Analysis (PDF)**  
-  [Download analysis report](analysis.pdf)
-
-- 🎤 **Presentation (HTML Slides)**  
-  [View interactive presentation](presentation.html)
+The project demonstrates an end-to-end analytical workflow, from data preparation to publication-ready outputs suitable for web and PDF dissemination.
 
 ---
 
-## 🧠 Skills Demonstrated
+## 🔗 Project Outputs
 
-- Reproducible research workflows (Quarto + renv)
-- Data cleaning and validation
-- Statistical analysis
-- Publication-ready reporting
-- GitHub Pages deployment
+- 📄 **Full Analysis Report (PDF)**  
+  👉 [Download analysis report](docs/analysis.pdf)
+
+- 🖥️ **Interactive Presentation (HTML Slides)**  
+  👉 [View interactive presentation](https://yusufkurniar.github.io/population-projection-analysis/)
 
 ---
 
